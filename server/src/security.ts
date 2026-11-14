@@ -37,9 +37,10 @@ export function clientIp(req: http.IncomingMessage): string {
 
 export const limits = {
   create: new RateLimiter(6, 6 / 60), // 6 rooms burst, 6/min
-  join: new RateLimiter(12, 12 / 60), // 12 join attempts burst, 12/min (codes are ~8.5e11)
-  upgrade: new RateLimiter(30, 1),
-  http: new RateLimiter(60, 2),
+  // Generous enough for a whole class/household on one IP; codes (31^8 ≈ 8.5e11) stay unguessable.
+  join: new RateLimiter(40, 30 / 60),
+  upgrade: new RateLimiter(60, 2),
+  http: new RateLimiter(120, 4),
 };
 
 const ALLOWED_METHODS = new Set(["create", "joinById", "reconnect"]);

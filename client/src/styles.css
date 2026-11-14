@@ -1099,3 +1099,56 @@ h3 {
     max-height: 50vh;
   }
 }
+
+/* Phones: put Create/Join first, then the pitch. */
+@media (max-width: 860px) {
+  .home > .home-card {
+    order: -1;
+  }
+  .home {
+    padding-top: 4px;
+    gap: 18px;
+  }
+  .home .brand {
+    font-size: 40px;
+  }
+}
+/* Short landscape screens (phones held sideways): keep banners compact. */
+@media (max-height: 520px) {
+  .center-banner {
+    top: 34%;
+  }
+  .center-banner h1 {
+    font-size: 30px;
+  }
+  .center-banner p {
+    font-size: 14px;
+    max-width: 70vw;
+  }
+  .toasts {
+    top: 56px;
+  }
+  .toast {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+  .tbtn {
+    width: 62px;
+    height: 62px;
+  }
+  .tbtns {
+    grid-template-columns: repeat(2, 62px);
+    bottom: max(70px, calc(env(safe-area-inset-bottom) + 60px));
+  }
+}
+.only-mobile {
+  display: none;
+}
+@media (max-width: 860px) {
+  .only-mobile {
+    display: block;
+  }
+  .hide-mobile {
+    display: none;
+  }
+}

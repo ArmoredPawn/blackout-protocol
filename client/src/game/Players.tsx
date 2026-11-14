@@ -205,8 +205,24 @@ function LocalPlayer() {
       body.vy = 0;
       if (game.lastRound !== useApp.getState().snap?.round) {
         game.lastRound = useApp.getState().snap?.round ?? 0;
-        game.yaw = me.ry;
-        game.ry = me.ry;
+        // Start with the camera in the most open direction so it isn't jammed against a wall.
+        let bestYaw = me.ry,
+          bestFree = -1;
+        for (let i = 0; i < 16; i++) {
+          const yaw = (i / 16) * Math.PI * 2;
+          let free = 0;
+          for (let s = 0.5; s <= 9; s += 0.5) {
+            // Camera sits behind the player (opposite of the look direction).
+            if (rt.pointSolid(me.x - Math.sin(yaw) * s, me.y + 2.2, me.z - Math.cos(yaw) * s)) break;
+            free = s;
+          }
+          if (free > bestFree) {
+            bestFree = free;
+            bestYaw = yaw;
+          }
+        }
+        game.yaw = bestYaw;
+        game.ry = bestYaw;
       }
     }
 

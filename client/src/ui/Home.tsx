@@ -38,7 +38,7 @@ export function Home() {
     <div className="screen">
       <div className="home">
         <div>
-          <div className="brand">
+          <div className="brand hide-mobile">
             BLACKOUT
             <br />
             <span>PROTOCOL</span>
@@ -64,6 +64,9 @@ export function Home() {
         </div>
 
         <div className="panel home-card">
+          <div className="brand only-mobile" style={{ fontSize: 30 }}>
+            BLACKOUT <span>PROTOCOL</span>
+          </div>
           <div className="avatar-stage">
             <AvatarPreview avatar={prefs.avatar} />
             <button className="btn small" style={{ position: "absolute", right: 10, bottom: 10 }} onClick={() => useApp.setState({ screen: "avatar" })}>
