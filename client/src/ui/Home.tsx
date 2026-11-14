@@ -110,6 +110,9 @@ export function Home() {
             <button className="btn ghost small" onClick={() => useApp.setState({ showPrefs: true })}>
               <Icon name="gear" size={16} /> Settings & controls
             </button>
+            <button className="btn ghost small" onClick={() => useApp.setState({ screen: "editor" })}>
+              <Icon name="map" size={16} /> Map editor
+            </button>
           </div>
           <p className="local-note">
             No account needed. Your name, avatar and settings are saved <b>only in this browser</b>. They won&apos;t appear on other devices or browsers, and

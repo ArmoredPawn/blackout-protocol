@@ -33,7 +33,7 @@ function useMaterials(build: MapBuild) {
   }, [build]);
 }
 
-export function MapView({ rt, build }: { rt: MapRuntime; build: MapBuild }) {
+export function MapView({ rt, build, hideCeiling = false }: { rt: MapRuntime; build: MapBuild; hideCeiling?: boolean }) {
   const mats = useMaterials(build);
   const quality = useApp((s) => s.prefs.quality);
   const shadows = quality !== "low";
@@ -42,7 +42,7 @@ export function MapView({ rt, build }: { rt: MapRuntime; build: MapBuild }) {
     D = rt.depth * CELL;
   return (
     <group>
-      {(Object.keys(build.geos) as Bucket[]).map((k) => (
+      {(Object.keys(build.geos) as Bucket[]).filter((k) => !(hideCeiling && k === "ceiling")).map((k) => (
         <mesh
           key={k}
           geometry={build.geos[k]!}

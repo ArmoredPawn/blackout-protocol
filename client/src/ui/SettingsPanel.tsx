@@ -18,6 +18,7 @@ import { net } from "../net/connection";
 import { useApp } from "../store";
 import { PowerupIcon } from "./Icon";
 import { MapThumb } from "./MapPreview";
+import { playableSavedMaps } from "../editor/storage";
 
 type Tab = "general" | "hunter" | "survivor" | "map";
 
@@ -236,7 +237,22 @@ export function SettingsPanel({ host }: { host: boolean }) {
             {host && (
               <div className="col" style={{ marginTop: 10 }}>
                 <div className="label">Custom map</div>
+                {playableSavedMaps().length > 0 && (
+                  <div className="col" style={{ gap: 4 }}>
+                    {playableSavedMaps().map((sm) => (
+                      <div key={sm.key} className="player-row" style={{ padding: "6px 10px" }}>
+                        <span className="grow">{sm.map.name}</span>
+                        <button className="btn small" onClick={() => net.send("customMap", JSON.stringify(sm.map))}>
+                          Use
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div className="row wrap">
+                  <button className="btn small" onClick={() => useApp.setState({ screen: "editor" })}>
+                    Open map editor
+                  </button>
                   <label className="btn small">
                     Import map file
                     <input

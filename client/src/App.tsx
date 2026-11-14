@@ -7,6 +7,7 @@ import { input } from "./game/input";
 import { audio } from "./game/audio";
 import { Home } from "./ui/Home";
 import { AvatarEditor } from "./ui/AvatarEditor";
+import { MapEditor } from "./editor/MapEditor";
 import { Lobby } from "./ui/Lobby";
 import { Hud } from "./ui/Hud";
 import { PrefsModal } from "./ui/PrefsModal";
@@ -74,8 +75,16 @@ export function App() {
   }, []);
 
   const inGame = phase === "headstart" || phase === "playing" || phase === "results";
+  // A round starting pulls everyone out of the avatar/map editors.
+  useEffect(() => {
+    if (phase === "headstart" && (useApp.getState().screen === "avatar" || useApp.getState().screen === "editor")) {
+      useApp.setState({ screen: "room" });
+      useApp.getState().toast("The round is starting!", "info");
+    }
+  }, [phase]);
   let body: React.ReactNode;
   if (screen === "avatar") body = <AvatarEditor />;
+  else if (screen === "editor") body = <MapEditor />;
   else if (phase && inGame)
     body = (
       <>
@@ -89,7 +98,7 @@ export function App() {
 
   return (
     <div className="app">
-      {!inGame && <div className="backdrop" />}
+      {(!inGame || screen === "editor" || screen === "avatar") && <div className="backdrop" />}
       {body}
       <Toasts />
       <PrefsModal />

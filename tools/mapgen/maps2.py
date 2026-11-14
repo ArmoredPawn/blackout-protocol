@@ -106,7 +106,7 @@ def deepcore():
         blurb="underground research station with rock tunnels, glass vaults and vents.",
         description="A buried research station. Tight tunnels, a humming reactor and glass vaults that open as more players join.",
         theme="underground",
-        lighting=("#a8d4ff", 0.38, "#06080b", 0.034, "#020304", 1.7),
+        lighting=("#a8d4ff", 0.58, "#06080b", 0.026, "#020304", 1.9),
     ), {}, ["#c8f0ff", "#a0e8ff", "#d0c0ff"]
 
 

@@ -9,7 +9,7 @@ export const deepcore = buildAsciiMap({
   name: "Deepcore Station",
   description: "A buried research station. Tight tunnels, a humming reactor and glass vaults that open as more players join.",
   theme: "underground",
-  lighting: { ambient: "#a8d4ff", ambientIntensity: 0.38, fog: "#06080b", fogDensity: 0.034, sky: "#020304", lamp: 1.7 },
+  lighting: { ambient: "#a8d4ff", ambientIntensity: 0.58, fog: "#06080b", fogDensity: 0.026, sky: "#020304", lamp: 1.9 },
   lightColors: ["#c8f0ff", "#a0e8ff", "#d0c0ff"],
   floors: [
     `
