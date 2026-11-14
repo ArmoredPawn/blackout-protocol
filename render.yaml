@@ -1,15 +1,18 @@
-# Render Blueprint: game server (Colyseus). The frontend is deployed separately (Cloudflare Pages).
+# Render Blueprint: the game server (Colyseus). The website is deployed separately (Cloudflare Pages).
 services:
   - type: web
     name: blackout-protocol-server
     runtime: node
-    plan: starter # $7/mo, no sleeping. Use "free" for testing (sleeps after 15 min idle, ~1 min cold start).
+    plan: free # sleeps after 15 min idle (~1 min wake-up). Switch to "starter" ($7/mo) for always-on.
     region: oregon
     buildCommand: npm ci && npm run build --workspace server
     startCommand: npm run start --workspace server
     healthCheckPath: /health
+    autoDeploy: true
     envVars:
       - key: NODE_VERSION
         value: "22"
+      # Comma-separated list of website origins allowed to connect, e.g. https://blackout.pages.dev
+      # Render asks for this value when you create the Blueprint. Use * until the site exists.
       - key: ALLOWED_ORIGINS
-        value: https://your-site.pages.dev # comma-separated list of frontend origins
+        sync: false

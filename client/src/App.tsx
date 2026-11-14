@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { normalizeRoomCode } from "@bp/shared";
-import { net } from "./net/connection";
+import { net, serverUrl } from "./net/connection";
 import { useApp } from "./store";
 import { GameCanvas } from "./game/GameCanvas";
 import { input } from "./game/input";
@@ -68,6 +68,8 @@ export function App() {
   const conn = useApp((s) => s.conn);
   const touch = useTouchMode();
   useEffect(() => {
+    // Wake the game server early: free hosting tiers sleep when idle and take ~1 min to start.
+    fetch(`${serverUrl()}/health`, { mode: "cors", cache: "no-store" }).catch(() => {});
     input.attach();
     const unlock = () => audio.init();
     window.addEventListener("pointerdown", unlock, { once: true });
