@@ -50,6 +50,7 @@ PORT=2599 npx tsx server/src/index.ts &   # then, from server/:
 npx tsx test/smoke.ts                     # privacy, settings auth, roles, anti-teleport, host transfer
 npx tsx test/loop.ts                      # bots: hack → down → carry → pod → hunters win
 npx tsx test/escape.ts                    # bots: hack → exits powered → open → escape → survivors win
+npx tsx test/rescue.ts                    # bots: struggle free → sonar → capture → teammate rescue
 npx tsx test/load.ts                      # 20 physics-driven bots in one room: patch timing, bandwidth, false corrections
 ```
 
