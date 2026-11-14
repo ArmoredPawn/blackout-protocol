@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {
   BUILTIN_MAPS, MapRuntime, validateMap, stepBody, generateRoomCode, normalizeRoomCode,
   sanitizeSettings, DEFAULT_SETTINGS, parseAvatar, DEFAULT_AVATAR, encodeMapCode, decodeMapCode,
-  BASE_SURVIVOR_SPEED, JUMP_VELOCITY,
+  BASE_SURVIVOR_SPEED, JUMP_VELOCITY, DIRS,
 } from "./index.js";
 
 for (const m of BUILTIN_MAPS) {
@@ -17,14 +17,13 @@ for (const m of BUILTIN_MAPS) {
   assert.ok(s.grounded && Math.abs(s.y - sp.wy) < 0.01, `lands on floor: ${JSON.stringify(s)}`);
   // Walk north for 10 s: must never escape bounds or tunnel through walls.
   for (let i = 0; i < 600; i++) stepBody(rt, s, { dx: 0, dz: -1, jump: false, crawl: false, speed: BASE_SURVIVOR_SPEED, jumpVelocity: JUMP_VELOCITY }, 1 / 60);
-  console.log("after walking north", s);
-  // Stairs: start at bottom of the first staircase, walk up.
-  const st = rt.stairs[0];
-  if (st) {
-    const b = { x: st.wx, y: 0, z: st.wz + 2.5, vy: 0, grounded: true, crawling: false };
-    for (let i = 0; i < 240; i++) stepBody(rt, b, { dx: 0, dz: -1, jump: false, crawl: false, speed: BASE_SURVIVOR_SPEED, jumpVelocity: JUMP_VELOCITY }, 1 / 60);
-    console.log("after climbing stairs", b);
-    assert.ok(b.y > 3.9, "climbed to floor 1");
+  // Stairs: start below each staircase and walk up it (tier 3 so every gate is open).
+  const rt3 = new MapRuntime(m, 3);
+  for (const st of rt3.stairs) {
+    const d = DIRS[st.r ?? 0];
+    const b = { x: st.wx - d.x * 2.5, y: st.wy, z: st.wz - d.z * 2.5, vy: 0, grounded: true, crawling: false };
+    for (let i = 0; i < 240; i++) stepBody(rt3, b, { dx: d.x, dz: d.z, jump: false, crawl: false, speed: BASE_SURVIVOR_SPEED, jumpVelocity: JUMP_VELOCITY }, 1 / 60);
+    assert.ok(b.y > st.wy + 3.9, `${m.id}: climbed stairs at ${st.x},${st.z} (y=${b.y.toFixed(2)})`);
   }
   const code = await encodeMapCode(m);
   const back = await decodeMapCode(code);
