@@ -261,7 +261,7 @@ class Net {
 
 function friendlyError(e: any): string {
   const msg = String(e?.message ?? e ?? "");
-  if (/not found|no rooms found|invalid room/i.test(msg) || e?.code === 4212) return "No room with that code. Check the code and try again.";
+  if (/not found|no rooms found|invalid room/i.test(msg) || e?.code === 4212 || e?.code === 522 || e?.code === 404) return "No room with that code. Check the code and try again.";
   if (/full/i.test(msg)) return "That room is full.";
   if (/removed/i.test(msg)) return "You were removed from that room by the host.";
   if (/locked/i.test(msg)) return "That room isn't accepting players right now.";

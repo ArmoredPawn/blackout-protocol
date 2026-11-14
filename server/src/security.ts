@@ -77,6 +77,12 @@ export function guardHttpServer(server: http.Server, allowedOrigins: string[]) {
         if (!ALLOWED_METHODS.has(method)) return deny(403, "Public matchmaking is disabled. Use a private room code.");
         if (method === "create" && !limits.create.take(ip)) return deny(429, "You're creating rooms too quickly. Try again in a minute.");
         if (method === "joinById" && !limits.join.take(ip)) return deny(429, "Too many join attempts. Wait a minute and try again.");
+        // Colyseus uses its error numbers as HTTP statuses (e.g. 522 = invalid room id).
+        // Proxies like Cloudflare (used by Render) reserve 520–527 and swap in their own
+        // error page, which would hide "room not found" from the player. Remap them.
+        const writeHead = res.writeHead.bind(res) as (...a: any[]) => http.ServerResponse;
+        res.writeHead = ((status: number, ...rest: any[]) =>
+          writeHead(status >= 520 && status <= 530 ? (status === 522 ? 404 : 409) : status, ...rest)) as typeof res.writeHead;
       }
     } else if (event === "upgrade") {
       const [req, socket] = args as [http.IncomingMessage, import("node:net").Socket];
