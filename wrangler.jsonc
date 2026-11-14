@@ -1,0 +1,11 @@
+// Cloudflare Workers static-assets deployment for the website (client).
+// The game server runs separately on Render; see docs/HOSTING.md.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "blackout-protocol",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./client/dist",
+    "not_found_handling": "single-page-application"
+  }
+}

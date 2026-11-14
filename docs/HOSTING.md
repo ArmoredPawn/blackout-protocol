@@ -47,11 +47,12 @@ One Starter instance (0.5 CPU / 512 MB) comfortably runs several 20-player rooms
 3. Set `ALLOWED_ORIGINS` to your frontend URL, e.g. `https://blackout.pages.dev`.
 4. Health check: `GET /health`.
 
-### Client (Cloudflare Pages)
-1. **Create project → Connect to Git** and pick the repo.
+### Client (Cloudflare Workers static assets)
+Cloudflare now sets up new sites as Workers. The repo's `wrangler.jsonc` serves `client/dist` as static assets, which are free and unmetered.
+1. **Workers & Pages → Create → Import a repository**, then pick the repo.
 2. Build command: `npm ci && npm run build --workspace client`
-3. Build output directory: `client/dist`
-4. Environment variable: `VITE_SERVER_URL=https://<your-render-service>.onrender.com`
-5. Node version: set `NODE_VERSION=22`.
+3. Deploy command: `npx wrangler deploy`
+4. Under **Advanced settings → Build variables**: `VITE_SERVER_URL=https://<your-render-service>.onrender.com` and `NODE_VERSION=22`.
+5. After the first deploy, set Render's `ALLOWED_ORIGINS` to the site URL (e.g. `https://blackout-protocol.<account>.workers.dev`).
 
-Invite links use the URL fragment (`/#/join/CODE`), so no SPA rewrite rules are needed.
+Invite links use the URL fragment (`/#/join/CODE`), so no rewrite rules are needed.
