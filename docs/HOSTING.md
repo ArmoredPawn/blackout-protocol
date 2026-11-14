@@ -47,7 +47,10 @@ One Starter instance (0.5 CPU / 512 MB) comfortably runs several 20-player rooms
 3. Set `ALLOWED_ORIGINS` to your frontend URL, e.g. `https://blackout.pages.dev`.
 4. Health check: `GET /health`.
 
-### Client (Cloudflare Workers static assets)
+### Client: GitHub Pages (current)
+`.github/workflows/pages.yml` runs the tests, builds `client/` with `VITE_BASE=/blackout-protocol/`, and publishes it to https://armoredpawn.github.io/blackout-protocol/ on every push to `main`. The server URL comes from `client/.env.production`. Render's `ALLOWED_ORIGINS` must include `https://armoredpawn.github.io`, the origin only, with no path.
+
+### Client: Cloudflare Workers static assets (alternative)
 Cloudflare now sets up new sites as Workers. The repo's `wrangler.jsonc` serves `client/dist` as static assets, which are free and unmetered.
 1. **Workers & Pages → Create → Import a repository**, then pick the repo.
 2. Build command: `npm ci && npm run build --workspace client`

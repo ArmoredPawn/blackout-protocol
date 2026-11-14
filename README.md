@@ -4,6 +4,10 @@ A private, browser-based multiplayer hunt-and-escape game. One or more **Hunters
 
 > Original game. Its gameplay is inspired by the asymmetric "hack and escape" genre, but it uses no third-party code, assets, names or maps.
 
+## Play
+
+**Live:** https://armoredpawn.github.io/blackout-protocol/
+
 ## Play locally
 
 ```bash
