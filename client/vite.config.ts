@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
 
 export default defineConfig({
+  // GitHub Pages serves the site under /blackout-protocol/; Cloudflare and local dev serve it at /.
+  base: process.env.VITE_BASE ?? "/",
   plugins: [react()],
   resolve: {
     alias: { "@bp/shared": fileURLToPath(new URL("../shared/src/index.ts", import.meta.url)) },
